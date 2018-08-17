@@ -56,6 +56,6 @@ final class Nyhet_taxonomy {
 			'capabilities'      => array(),
 		);
 	
-		register_taxonomy('emnyhettype', 'emnyhet', $args );
+		register_taxonomy('nyhettype', 'nyhet', $args );
 	}
 }

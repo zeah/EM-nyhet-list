@@ -25,15 +25,15 @@ final class Nyhet_shortcode {
 
 		// loan list
 		if (!shortcode_exists('nyhet')) add_shortcode('nyhet', array($this, 'add_shortcode'));
-		else add_shortcode('emnyhet', array($this, 'add_shortcode'));
+		else add_shortcode('nyhet', array($this, 'add_shortcode'));
 
 		// loan thumbnail
 		// if (!shortcode_exists('nyhet-bilde')) add_shortcode('nyhet-bilde', array($this, 'add_shortcode_bilde'));
-		// else add_shortcode('emnyhet-bilde', array($this, 'add_shortcode_bilde'));
+		// else add_shortcode('nyhet-bilde', array($this, 'add_shortcode_bilde'));
 
 		// // loan button
 		// if (!shortcode_exists('nyhet-bestill')) add_shortcode('nyhet-bestill', array($this, 'add_shortcode_bestill'));
-		// else add_shortcode('emnyhet-bestill', array($this, 'add_shortcode_bestill'));
+		// else add_shortcode('nyhet-bestill', array($this, 'add_shortcode_bestill'));
 
 
 		add_filter('search_first', array($this, 'add_serp'));
@@ -50,13 +50,13 @@ final class Nyhet_shortcode {
 		if (!is_array($atts)) $atts = [];
 
 		$args = [
-			'post_type' 		=> 'emnyhet',
+			'post_type' 		=> 'nyhet',
 			'posts_per_page' 	=> -1,
 			'orderby'			=> [
 										'meta_value_num' => 'ASC',
 										'title' => 'ASC'
 								   ],
-			'meta_key'			=> 'emnyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
+			'meta_key'			=> 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
 		];
 
 
@@ -65,7 +65,7 @@ final class Nyhet_shortcode {
 		if ($type)
 			$args['tax_query'] = array(
 					array(
-						'taxonomy' => 'emnyhettype',
+						'taxonomy' => 'nyhettype',
 						'field' => 'slug',
 						'terms' => sanitize_text_field($type)
 					)
@@ -76,7 +76,7 @@ final class Nyhet_shortcode {
 		if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
 		if ($names) $args['post_name__in'] = $names;
 		
-		$exclude = get_option('emnyhet_exclude');
+		$exclude = get_option('nyhet_exclude');
 
 		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
 
@@ -113,11 +113,11 @@ final class Nyhet_shortcode {
 	 * @return [html]        html list of loans
 	 */
 	private function get_html($posts) {
-		$html = '<ul class="emnyhet-ul">';
+		$html = '<ul class="nyhet-ul">';
 
 		foreach ($posts as $p) {
 			
-			$meta = get_post_meta($p->ID, 'emnyhet_data');
+			$meta = get_post_meta($p->ID, 'nyhet_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
@@ -127,7 +127,7 @@ final class Nyhet_shortcode {
 			$meta = $this->esc_kses($meta);
 
 			// grid container
-			$html .= '<li class="emnyhet-container">';
+			$html .= '<li class="nyhet-container">';
 
 			
 
@@ -151,9 +151,9 @@ final class Nyhet_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != 'emnyhet') return $data;
+		if ($post->post_type != 'nyhet') return $data;
 
-		$exclude = get_option('emnyhet_exclude');
+		$exclude = get_option('nyhet_exclude');
 
 		if (!is_array($exclude)) $exclude = [];
 

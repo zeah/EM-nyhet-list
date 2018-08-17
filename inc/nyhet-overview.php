@@ -17,14 +17,14 @@ final class Nyhet_overview {
 	}
 
 	public function add_menu() {
-		add_submenu_page('edit.php?post_type=emnyhet', 'Overview', 'Overview', 'manage_options', 'emnyhet-overview', array($this, 'add_page'));
+		add_submenu_page('edit.php?post_type=nyhet', 'Overview', 'Overview', 'manage_options', 'emnyhet-overview', array($this, 'add_page'));
 	}
 
 	public function add_page() {
 		wp_enqueue_style('em-nyhet-admin-style', NYHET_PLUGIN_URL . 'assets/css/admin/em-nyhet.css', array(), '1.0.0');
 
 		$args = [
-			'post_type' 		=> array('page', 'post', 'emnyhet'),
+			'post_type' 		=> get_post_types(['public' => true]),
 			'posts_per_page'	=> -1
 		];
 
@@ -32,9 +32,11 @@ final class Nyhet_overview {
 
 		$site = get_site_url();
 
-		$html = '<table id="myTable2" style="font-size: 16px;"><tr><th width="400px" onclick="sortTable(0)">Url</th><th onclick="sortTable(1)">Name</th><th onclick="sortTable(2)">Shortcode</th></tr>';
+		$html .= '<table id="myTable2" style="font-size: 16px;"><tr><th width="400px" onclick="sortTable(0)">Url</th><th onclick="sortTable(1)">Name</th><th onclick="sortTable(2)">Shortcode</th></tr>';
 
 		foreach ($posts as $post) {
+
+			if ($post->post_type == 'attachment') continue;
 
 			if (strpos($post->post_content, '[nyhet') !== false) {
 				preg_match_all('/\[nyhet.*?\]/', $post->post_content, $matches);

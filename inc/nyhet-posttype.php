@@ -51,30 +51,31 @@ final class Nyhet_posttype {
 			'labels'              => $labels,
 			'hierarchical'        => false,
 			'description'         => 'description',
-			'taxonomies'          => array('emnyhettype'),
-			'public'              => false,
+			'taxonomies'          => array('nyhettype'),
+			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 30,
 			'menu_icon' 		  => 'dashicons-media-document',
 			'show_in_nav_menus'   => false,
-			'publicly_queryable'  => false,
+			'publicly_queryable'  => true,
 			'exclude_from_search' => false,
-			'has_archive'         => false,
+			'has_archive'         => true,
 			'query_var'           => true,
 			'can_export'          => true,
-			'rewrite'             => false,
+			'rewrite'             => true,
 			'capability_type'     => 'post',
 			'supports'            => array(
 				'title',
 				'thumbnail',
 				'editor',
 				'revision',
-				'excerpt'
+				'excerpt',
+				'author'
 			),
 		);
 		
-		register_post_type('emnyhet', $args);
+		register_post_type('nyhet', $args);
 	}
 }
