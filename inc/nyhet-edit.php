@@ -45,54 +45,54 @@ final class Nyhet_edit {
 	 * @param [array] $data [array passing through theme filter]
 	 */
 	public function add_doc($data) {
-		$data['nyhet']['title'] = '<h1 id="nyhet">Lånlist Sverige (Plugin)</h1>';
+		$data['nyhet']['title'] = '<h1 id="nyhet">Nyheter (Plugin)</h1>';
 
-		$data['nyhet']['index'] = '<li><h2><a href="#nyhet">Lånlist Sverige (Plugin)</a></h2>
+		$data['nyhet']['index'] = '<li><h2><a href="#nyhet">Nyheter (Plugin)</a></h2>
 											<ul>
+												<li><a href="#nyhet-editor">Editor</a></li>
 												<li><a href="#nyhet-shortcode">Shortcode</a></li>
 												<li><a href="#nyhet-aldri">Aldri vis</a></li>
 												<li><a href="#nyhet-sort">Sorting order</a></li>
 												<li><a href="#nyhet-overview">Overview</a></li>
 											</ul>
 										</li>';
-		$data['nyhet']['info'] = '<li id="nyhet-shortcode"><h2>Shortcodes</h2>
+		$data['nyhet']['info'] = '<li id="nyhet-editor"><h2>Editor</h2>
 										<ul>
-											<li><b>[lan]</b>
-											<p>[lan] will show all.</p>
+											<li>Meta
+												<p>If fields are empty, title will fall back on post title 
+												<br>and text will fall back on post excerpt.</p>
+
+												<p>If either field is set to "none" then 
+												<br>the field will not show up at all on front-end.</p>
 											</li>
-											<li><b>[lan name="xx, yy"]</b>
-											<p>Shows only the loans that is mentioned in the shortcode.
-											<br>The name needs to be the slug-name of the loan.
-											<br>Loans are sorted by the position they have in name=""
-											<br>eks.: [lan name="lendo-privatlan"] will only show the loan with slug-name "lendo-privatlån.
-											<br>[lan name="lendo-privatlan, axo-finans"] will show 2 loans: lendo and axo.</p>
-											<li><b>[lan lan="xx"]</b>
-											<p>lan must match the slug-name of the lan type.
-											<br>The loans are sorted by the sort order given in load edit page for that type.
-											<br>Eks: [lan lan="frontpage"] shows all loans with the category "frontpage" in the order of lowest number
-											<br>of field "Sort frontpage" has in the load editor page.</p>
-											</li>
-											</li>
-											<li><b>[lan-bilde name="xx"]</b>
-											<p>Name is required. Will show the loan\'s thumbnail.</p></li>
-											<li><b>[lan-bestill name="xx"]</b>
-											<p>Name is required. Will show the loan\'s button.</p></li>
 										</ul>
-										</li>
-										<li id="nyhet-aldri"><h2>Aldri vis</h2>
-										<p>If tagged, then the loan will never appear on the front-end.</p>
-										</li>
-										</li>
-										<li id="nyhet-sort"><h2>Sorting order</h2>
-										<p>The loans will be shown with the lowest "Sort"-value first.
-										<br>When only showing a specific category on loan page, then the sort order column will reflect 
+									</li>
+									<li id="nyhet-shortcode"><h2>Shortcodes</h2>
+										<ul>
+											<li><b>[nyhet]</b></li>
+											<li><b>[nyhet name="xx,yy"]</b></li>
+											<li><b>[nyhet nyhet=zz]</b></li>
+											<li><b>[nyhet float=left/right]</b></li>
+											<li><b>[nyhet notitle notext]</b></li>
+										</ul>
+									</li>
+
+									<li id="nyhet-aldri"><h2>Aldri vis</h2>
+										<p>If tagged, then the nyhet will never appear on the front-end.</p>
+									</li>
+
+									<li id="nyhet-sort"><h2>Sorting order</h2>
+										<p>The nyheter will be shown with the lowest "Sort"-value first.
+										<br>If of equal sort order, then newest date will be shown first.
+										<br>When only showing a specific category on nyheter page, then the sort order column will reflect 
 										<br>that category\'s sort order.</p>
-										</li>
-										<li id="nyhet-overview"><h2>Overview</h2>
+									</li>
+
+									<li id="nyhet-overview"><h2>Overview</h2>
 										<p> The <a target="_blank" href="'.get_site_url().'/wp-admin/edit.php?post_type=nyhet&page=nyhet-overview">overview page</a> will show every post and page and whether or not there are
 										<br>any lan shortcodes in them.
 										<br>You can sort the columns alphabetically</p>
-										</li>
+									</li>
 										';
 
 		return $data;

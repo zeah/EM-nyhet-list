@@ -1,11 +1,11 @@
 (() => {
 
-	// console.log(emnyhet_meta);
+	// console.log(nyhet_meta);
 
 	let newtype = '';
 
 	// meta box
-	let container = document.querySelector('.emnyhet-meta-container');
+	let container = document.querySelector('.nyhet-meta-container');
 
 	// new div helper function
 	let newdiv = (o = {}) => {
@@ -28,9 +28,9 @@
 	let newinput = (o = {}) => {
 		if (!o.name) return document.createElement('div');
 
-		let container = newdiv({class: 'emnyhet-input-container'});
+		let container = newdiv({class: 'nyhet-input-container'});
 
-		let title = newdiv({class: 'emnyhet-input-title', text: o.title});
+		let title = newdiv({class: 'nyhet-input-title', text: o.title});
 		container.appendChild(title);
 
 		let input = document.createElement('input');
@@ -38,13 +38,13 @@
 		if (!o.type) input.setAttribute('type', 'text');
 		else input.setAttribute('type', o.type);
 
-		if (!o.sort) input.setAttribute('value', (emnyhet_meta.meta[o.name] == undefined) ? '' : emnyhet_meta.meta[o.name]);
+		if (!o.sort) input.setAttribute('value', (nyhet_meta.meta[o.name] == undefined) ? '' : nyhet_meta.meta[o.name]);
 		else {
-			let sort = emnyhet_meta.emnyhet_sort;
+			let sort = nyhet_meta.nyhet_sort;
 
-			if (o.sort != 'default') sort = emnyhet_meta['emnyhet_sort_'+o.sort];
+			if (o.sort != 'default') sort = nyhet_meta['nyhet_sort_'+o.sort];
 
-			if (sort == undefined) sort = emnyhet_meta.emnyhet_sort;
+			if (sort == undefined) sort = nyhet_meta.nyhet_sort;
 
 			input.setAttribute('value', sort);
 		}
@@ -55,7 +55,7 @@
 
 
 
-		if (!o.notData) input.setAttribute('name', 'emnyhet_data['+o.name+']');
+		if (!o.notData) input.setAttribute('name', 'nyhet_data['+o.name+']');
 		else input.setAttribute('name', o.name);
 
 		container.appendChild(input);
@@ -69,15 +69,15 @@
 		let container = document.createElement('div');
 
 		let input = document.createElement('select');
-		input.setAttribute('name', 'emnyhet_data[terning]');
+		input.setAttribute('name', 'nyhet_data[terning]');
 
-		container.appendChild(newdiv({class: 'emnyhet-input-title', text: 'Terningkast'}));
+		container.appendChild(newdiv({class: 'nyhet-input-title', text: 'Terningkast'}));
 
 		// helper function for creating option tag
 		let addOption = (o = {}) => {
 			let option = document.createElement('option');
 			option.setAttribute('value', o.value);
-			if (o.value == emnyhet_meta.meta.terning) option.setAttribute('selected', '');
+			if (o.value == nyhet_meta.meta.terning) option.setAttribute('selected', '');
 			option.appendChild(document.createTextNode(o.value));
 			return option;
 		}
@@ -92,9 +92,9 @@
 		return container; 
 	}
 
-	let container_sort = newdiv({class: 'emnyhet-sort-container'});
+	let container_sort = newdiv({class: 'nyhet-sort-container'});
 	container_sort.appendChild(newinput({
-		name: 'emnyhet_sort', 
+		name: 'nyhet_sort', 
 		title: 'Sortering', 
 		notData: true, 
 		sort: 'default', 
@@ -104,9 +104,9 @@
 
 	container.appendChild(container_sort);
 
-	for (let sort of emnyhet_meta['tax'])
+	for (let sort of nyhet_meta['tax'])
 		container_sort.appendChild(newinput({
-			name: 'emnyhet_sort_'+sort, 
+			name: 'nyhet_sort_'+sort, 
 			title: 'Sortering '+sort.replace(/-/g, ' '), 
 			notData: true, 
 			sort: sort, 
@@ -116,10 +116,10 @@
 
 	// container.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
 
-	container.appendChild(newinput({name: 'list_title', title: 'Nyhet title i liste'}));
-	container.appendChild(newinput({name: 'list_text', title: 'Nyhet tekst i liste'}));
+	container.appendChild(newinput({name: 'title', title: 'Title for shortcode'}));
+	container.appendChild(newinput({name: 'text', title: 'Tekst for shortcode'}));
 
-	// let info_container = newdiv({class: 'emnyhet-info-container'});
+	// let info_container = newdiv({class: 'nyhet-info-container'});
 
 	// info_container.appendChild(newinput({name: 'info01', title: 'Text 01'}));
 	// info_container.appendChild(newinput({name: 'info05', title: 'Text 05'}));
@@ -136,14 +136,14 @@
 
 
 	// adding existing category
-	jQuery('#emnyhettypechecklist').on('change', function(e) {
+	jQuery('#nyhettypechecklist').on('change', function(e) {
 
 		let text = $(e.target).parent().text().trim().replace(/ /g, '-');
 
-		if (!e.target.checked) $("input[name='emnyhet_sort_"+text+"']").parent().remove();
+		if (!e.target.checked) $("input[name='nyhet_sort_"+text+"']").parent().remove();
 		else {
 			let input = newinput({
-				name: 'emnyhet_sort_'+text, 
+				name: 'nyhet_sort_'+text, 
 				title: 'Sortering '+text.replace(/-/g, ' '), 
 				notData: true, 
 				sort: text, 
@@ -151,20 +151,20 @@
 				step: 0.01
 			});
 
-			// $("input[name='emnyhet_sort']").parent().parent().append(input);
-			$('.emnyhet-sort-container').append(input);
+			// $("input[name='nyhet_sort']").parent().parent().append(input);
+			$('.nyhet-sort-container').append(input);
 		}
 	});
 
 	// reading name of new category for creating
-	jQuery('#newemnyhettype').on('input', function(e) { newtype = e.target.value; });
+	jQuery('#newnyhettype').on('input', function(e) { newtype = e.target.value; });
 
 	// creating category
-	jQuery('#emnyhettype-add-submit').click(function(e) {
+	jQuery('#nyhettype-add-submit').click(function(e) {
 		let text = newtype.trim().replace(/ /g, '-');
-		let input = newinput({name: 'emnyhet_sort_'+text, title: 'Sortering '+text.replace(/-/g, ' '), notData: true, sort: text, type: 'number'});
-		$('.emnyhet-sort-container').append(input);
-		// $("input[name='emnyhet_sort']").parent().parent().append(input);
+		let input = newinput({name: 'nyhet_sort_'+text, title: 'Sortering '+text.replace(/-/g, ' '), notData: true, sort: text, type: 'number'});
+		$('.nyhet-sort-container').append(input);
+		// $("input[name='nyhet_sort']").parent().parent().append(input);
 	});
 
 })();

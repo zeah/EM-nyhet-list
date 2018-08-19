@@ -54,7 +54,7 @@ final class Nyhet_shortcode {
 			'posts_per_page' 	=> -1,
 			'orderby'			=> [
 										'meta_value_num' => 'ASC',
-										'title' => 'ASC'
+										'date' => 'DESC'
 								   ],
 			'meta_key'			=> 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
 		];
@@ -90,9 +90,58 @@ final class Nyhet_shortcode {
 		
 			$posts = $sorted_posts;
 		}
-				
+		
+		// $columns = ' 1fr 1fr 1fr';
 
-		$html = $this->get_html($posts);
+		if (!$atts['colnr']) $atts['colnr'] = 3;
+		elseif (intval($atts['colnr']) > 6) $atts['colnr'] = 6;
+
+		$float = false;
+		if ($atts['float']) {
+			switch (intval($atts['colnr'])) {
+				case 2: $atts['colnr'] = 2; break;
+				default: $atts['colnr'] = 1;
+			}
+
+			switch($atts['float']) {
+				case 'left': $floated = 'left'; break;
+				case 'right': $floated = 'right';
+			}
+		}
+
+		$columns = '';
+
+		switch (intval($atts['colnr'])) {
+			case 6: $columns = ' 1fr';
+			case 5: $columns .= ' 1fr';
+			case 4: $columns .= ' 1fr';
+			case 3: $columns .= ' 1fr';
+			case 2: $columns .= ' 1fr';
+			case 1: $columns .= ' 1fr';
+		}
+
+
+		$width = false;
+
+		if ($atts['width']) $width = intval($atts['width']) / 10;
+
+
+		$html = '<ul class="nyhet-ul" style="grid-template-columns:'.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem;') : '').'">';
+
+		// else $html .= $this->get_html($posts);
+
+		$first = true;
+		if ($atts['colnr'] == 1) $first = false;
+
+		$title = true;
+		if (in_array('notitle', $atts)) $title = false;
+
+		$text = true;
+		if (in_array('notext', $atts)) $text = false;
+
+		$html .= $this->get_html($posts, $first, $title, $text);
+
+		$html .= '</ul>';
 
 		return $html;
 	}
@@ -112,10 +161,14 @@ final class Nyhet_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts) {
-		$html = '<ul class="nyhet-ul">';
+	private function get_html($posts, $first = true, $title = true, $text = true) {
+
+		$html = '';
+		// $first = true;
 
 		foreach ($posts as $p) {
+
+			setup_postdata($p);
 			
 			$meta = get_post_meta($p->ID, 'nyhet_data');
 
@@ -127,14 +180,38 @@ final class Nyhet_shortcode {
 			$meta = $this->esc_kses($meta);
 
 			// grid container
-			$html .= '<li class="nyhet-container">';
+			$html .= '<li class="nyhet-container"'.($first ? ' style="grid-column: 1 / span 2;"' : '').'>';
 
-			
+			$first = false;
+
+			$html .= '<a class="nyhet-link" href="'.get_permalink($p).'">';
+
+			$html .= '<img class="nyhet-logo" src="'.esc_url(get_the_post_thumbnail_url($p)).'">';
+
+
+			$show = false;
+
+			if ($title || $text) $show = true;
+			if ($meta['title'] == 'none' && $meta['text'] == 'none') $show = false;
+
+			if ($show) {
+				$html .= '<span class="nyhet-text">';
+
+				if ($title && $meta['title'] != 'none') $html .= '<span class="nyhet-title">'.($meta['title'] ? $meta['title'] : sanitize_text_field($p->post_title)).'</span>';
+
+				if ($text && $meta['text'] != 'none') $html .= '<span class="nyhet-description">'.($meta['text'] ? $meta['text'] : get_the_excerpt($p)).'</span>';
+
+				$html .= '</a>';
+
+				$html .= '</span>';
+			}
+			// $html .= print_r($p, true);
 
 			$html .= '</li>';
+
+			wp_reset_postdata();
 		}
 
-		$html .= '</ul>';
 
 		return $html;
 	}
