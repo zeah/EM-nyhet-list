@@ -70,8 +70,8 @@ final class Nyhet_edit {
 									<li id="nyhet-shortcode"><h2>Shortcodes</h2>
 										<ul>
 											<li><b>[nyhet]</b></li>
-											<li><b>[nyhet name="xx,yy"]</b></li>
-											<li><b>[nyhet name="xx,yy" type="post/page"]</b></li>
+											<li><b>[nyhet name="xx,yy"]</b>
+											<p>If name attribute is used, then post type can be post, page and nyhet.</p></li>
 											<li><b>[nyhet nyhet=zz]</b></li>
 											<li><b>[nyhet float=left/right]</b></li>
 											<li><b>[nyhet notitle notext]</b></li>

@@ -44,33 +44,25 @@ final class Nyhet_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
 		if (!is_array($atts)) $atts = [];
 
 		$type = 'nyhet';
-		$types = get_post_types(['public' => true]);
+		if ($atts['name']) $type = get_post_types(['public' => true]);
 
-		if (in_array($atts['type'], $types)) $type = $atts['type'];
 
 		$args = [
 			'post_type' 		=> $type,
 			'posts_per_page' 	=> -1
-			// 'orderby'			=> [
-			// 							'meta_value_num' => 'ASC',
-			// 							'date' => 'DESC'
-			// 					   ],
-			// 'meta_key'			=> 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
 		];
 
-
-		if (!$atts['type']) {
+		if (!$atts['name']) {
 			$args['orderby'] = [
-									'meta_value_num' => 'ASC',
-									'date' => 'DESC'
-							   ];
-
+				'meta_value_num' => 'ASC',
+				'date' => 'DESC'
+			];
+			
 			$args['meta_key'] = 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '');
 		}
 
