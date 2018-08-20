@@ -62,7 +62,7 @@ final class Nyhet_shortcode {
 				'meta_value_num' => 'ASC',
 				'date' => 'DESC'
 			];
-			
+
 			$args['meta_key'] = 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '');
 		}
 
@@ -141,12 +141,41 @@ final class Nyhet_shortcode {
 
 		$first = true;
 		if ($atts['colnr'] == 1) $first = false;
+		elseif ($atts['float']) $first = false;
 
 		$title = true;
 		if (in_array('notitle', $atts)) $title = false;
 
 		$text = true;
 		if (in_array('notext', $atts)) $text = false;
+
+
+		// RANDOM random or random=x
+		if ($atts['random'] == '') $posts = [$posts[rand(0, sizeof($posts)-1)]];
+		elseif ($atts['random']) {
+
+			$random = intval($atts['random']);
+
+			// max value of random: size of array of Posts
+			if ($random > sizeof($posts)) $random = sizeof($posts);
+
+			// min value of random: 1
+			if ($random < 1) $random = 1;
+
+			// getting randoms
+			$p = [];
+			for ($i = 0; $i < $random; $i++) {
+				$r = array_rand($posts);
+
+				array_push($p, $posts[$r]);
+				unset($posts[$r]);
+			}
+
+			// setting random posts
+			$posts = $p;
+		}
+
+
 
 		$html .= $this->get_html($posts, $first, $title, $text);
 

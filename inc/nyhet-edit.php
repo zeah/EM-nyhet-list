@@ -71,9 +71,12 @@ final class Nyhet_edit {
 										<ul>
 											<li><b>[nyhet]</b></li>
 											<li><b>[nyhet name="xx,yy"]</b>
-											<p>If name attribute is used, then post type can be post, page and nyhet.</p></li>
+											<p>If name attribute is used, then post type can be post, page and nyhet.
+											<br>If a post/page/nyhet share slug-name with another, then both will be shown.</p></li>
 											<li><b>[nyhet nyhet=zz]</b></li>
-											<li><b>[nyhet float=left/right]</b></li>
+											<li><b>[nyhet float=left/right]</b>
+											<p>When float used, then width can also be set
+											<br>ex.: [nyhet float=right width=300]</p></li>
 											<li><b>[nyhet notitle notext]</b></li>
 										</ul>
 									</li>
