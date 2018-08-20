@@ -44,20 +44,35 @@ final class Nyhet_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-
+		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
 		if (!is_array($atts)) $atts = [];
 
+		$type = 'nyhet';
+		$types = get_post_types(['public' => true]);
+
+		if (in_array($atts['type'], $types)) $type = $atts['type'];
+
 		$args = [
-			'post_type' 		=> 'nyhet',
-			'posts_per_page' 	=> -1,
-			'orderby'			=> [
-										'meta_value_num' => 'ASC',
-										'date' => 'DESC'
-								   ],
-			'meta_key'			=> 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
+			'post_type' 		=> $type,
+			'posts_per_page' 	=> -1
+			// 'orderby'			=> [
+			// 							'meta_value_num' => 'ASC',
+			// 							'date' => 'DESC'
+			// 					   ],
+			// 'meta_key'			=> 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '')
 		];
+
+
+		if (!$atts['type']) {
+			$args['orderby'] = [
+									'meta_value_num' => 'ASC',
+									'date' => 'DESC'
+							   ];
+
+			$args['meta_key'] = 'nyhet_sort'.($atts['nyhet'] ? '_'.sanitize_text_field($atts['nyhet']) : '');
+		}
 
 
 		$type = false;
@@ -80,7 +95,9 @@ final class Nyhet_shortcode {
 
 		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
 
-		$posts = get_posts($args);	
+		$posts = get_posts($args);
+
+		// wp_die('<xmp>'.print_r($args, true).'</xmp>');
 
 		$sorted_posts = [];
 		if ($names) {
@@ -169,12 +186,11 @@ final class Nyhet_shortcode {
 		foreach ($posts as $p) {
 
 			setup_postdata($p);
-			
+
 			$meta = get_post_meta($p->ID, 'nyhet_data');
 
-			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
-			else continue;
+			else $meta = [];
 
 			// sanitize meta
 			$meta = $this->esc_kses($meta);
