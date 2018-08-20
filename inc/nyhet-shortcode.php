@@ -135,7 +135,7 @@ final class Nyhet_shortcode {
 		if ($atts['width']) $width = intval($atts['width']) / 10;
 
 
-		$html = '<ul class="nyhet-ul" style="grid-template-columns:'.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem;') : '').'">';
+		$html = '<ul class="nyhet-ul" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem;') : '').'">';
 
 		// else $html .= $this->get_html($posts);
 
@@ -151,7 +151,7 @@ final class Nyhet_shortcode {
 
 
 		// RANDOM random or random=x
-		if ($atts['random'] == '') $posts = [$posts[rand(0, sizeof($posts)-1)]];
+		if (in_array('random', $atts) && $atts['random'] == '') $posts = [$posts[rand(0, sizeof($posts)-1)]];
 		elseif ($atts['random']) {
 
 			$random = intval($atts['random']);

@@ -77,7 +77,27 @@
 
 /* 3.2 internet explorer */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-	.nyhet-container {
-		display: -ms-grid;
+
+
+	.nyhet-ul {
+		display: flex;
+		flex-wrap: wrap;
 	}
+
+	.nyhet-container {
+		width: 30%;
+		margin: 0 2rem 2rem 0;
+	}
+
+	.nyhet-container:first-child {
+		width: 60%;
+	}
+
+	.default-template-right-widget .nyhet-container,
+	.default-template-left-widget .nyhet-container {
+		width: 100%;
+		margin: 0 0 2rem 0;
+	}
+
+
 }
