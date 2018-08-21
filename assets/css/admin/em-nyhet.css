@@ -3,26 +3,26 @@
 	/*background-color: red !important;*/
 }
 
-.emlanlistse-sort-container {
+.nyhet-sort-container {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.emlanlistse-meta-container input {
+.nyhet-meta-container input {
 	width: 300px;
 	margin: 0 10px 10px 0;
 }
 
-.emlanlistse-sort-container input {
+.nyhet-sort-container input {
 	width: 150px;
 }
 
-.emlanlistse-info-container {
+.nyhet-info-container {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr;
 }
 
-.emlanlistse-input-title {
+.nyhet-input-title {
 	font-size: 16px;
 }
 

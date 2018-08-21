@@ -2,7 +2,7 @@
 /*
 Plugin Name: EM Nyhet List
 Description: Nyheter i liste
-Version: 0.0.4
+Version: 0.0.5
 GitHub Plugin URI: zeah/EM-nyhet-list
 */
 

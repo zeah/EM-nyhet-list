@@ -222,14 +222,18 @@ final class Nyhet_edit {
  	 * [exclude_meta_box description]
  	 */
 	public function exclude_meta_box() {
-		$option = get_option('nyhet_exclude');
 		global $post;
 
-		if (!is_array($option)) $option = [];
-		// echo 'hi'.print_r($option, true);
+		$exclude = get_option('nyhet_exclude');
+		if (!is_array($exclude)) $exclude = [];
+
+		$exclude_serp = get_option('nyhet_exclude_serp');
+		if (!is_array($exclude_serp)) $exclude_serp = [];
 
 
-		echo '<input name="nyhet_exclude" id="nyhet_exc" type="checkbox"'.(array_search($post->ID, $option) !== false ? ' checked' : '').'><label for="nyhet_exc">Nyhet vil ikke vises på front-end når boksen er markert.</label>';
+		echo '<p><input name="nyhet_exclude" id="nyhet_exc" type="checkbox"'.(in_array($post->ID, $exclude) ? ' checked' : '').'><label for="nyhet_exc">Nyhet vil ikke vises på front-end når boksen er markert.</label></p>
+	  		  <p><input name="nyhet_exclude_serp" id="nyhet_exc_serp" type="checkbox"'.(in_array($post->ID, $exclude_serp) ? ' checked' : '').'><label for="nyhet_exc_serp">Ikke vis i internal SERP.</label></p>';
+		// echo '<input name="nyhet_exclude" id="nyhet_exc" type="checkbox"'.(array_search($post->ID, $exclude) !== false ? ' checked' : '').'><label for="nyhet_exc">Nyhet vil ikke vises på front-end når boksen er markert.</label>';
 	}
 
 
@@ -255,35 +259,37 @@ final class Nyhet_edit {
 
 		// saves to wp option instead of post meta
 		// when adding
-		if (isset($_POST['nyhet_exclude'])) {
-			$option = get_option('nyhet_exclude');
+		$this->u_option('nyhet_exclude', $post_id);
+		$this->u_option('nyhet_exclude_serp', $post_id);
+		// if (isset($_POST['nyhet_exclude'])) {
+		// 	$option = get_option('nyhet_exclude');
 
-			// to avoid php error
-			if (!is_array($option)) $option = [];
+		// 	// to avoid php error
+		// 	if (!is_array($option)) $option = [];
 
-			// if not already added
-			if (array_search($post_id, $option) === false) {
+		// 	// if not already added
+		// 	if (array_search($post_id, $option) === false) {
 
-				// if to add to collection
-				if (is_array($option)) {
-					array_push($option, intval($post_id));
+		// 		// if to add to collection
+		// 		if (is_array($option)) {
+		// 			array_push($option, intval($post_id));
 
-					update_option('nyhet_exclude', $option);
-				}
+		// 			update_option('nyhet_exclude', $option);
+		// 		}
 				
-				// if to create collection (of one)
-				else update_option('nyhet_exclude', [$post_id]);
-			}
-		}
-		// when removing
-		else {
-			$option = get_option('nyhet_exclude');
+		// 		// if to create collection (of one)
+		// 		else update_option('nyhet_exclude', [$post_id]);
+		// 	}
+		// }
+		// // when removing
+		// else {
+		// 	$option = get_option('nyhet_exclude');
 
-			if (array_search($post_id, $option) !== false) {
-				unset($option[array_search($post_id, $option)]);
-				update_option('nyhet_exclude', $option);
-			}
-		}
+		// 	if (array_search($post_id, $option) !== false) {
+		// 		unset($option[array_search($post_id, $option)]);
+		// 		update_option('nyhet_exclude', $option);
+		// 	}
+		// }
 
 		// data is sent, then sanitized and saved
 		if (isset($_POST['nyhet_data'])) update_post_meta($post_id, 'nyhet_data', $this->sanitize($_POST['nyhet_data']));
@@ -297,6 +303,43 @@ final class Nyhet_edit {
 
 	}
 
+
+	/**
+	 * updating wp options
+	 * @param  [type] $data  var to be saved to
+	 * @param  [type] $value data to be saved
+	 */
+	private function u_option($data, $value) {
+		$option = get_option($data);
+		if (!is_array($option)) $option = []; // to avoid php error
+		
+		$value = intval($value);
+
+		if (isset($_POST[$data])) {
+
+			// if not already added
+			if (array_search($value, $option) === false) {
+
+				// if to add to collection
+				if (is_array($option)) {
+					array_push($option, $value);
+					update_option($data, $option);
+				}
+				
+				// if to create collection (of one)
+				else update_option($data, [$value]);
+			}
+		}
+		// when removing
+		else {
+			// $option = get_option($data);
+
+			if (array_search($value, $option) !== false) {
+				unset($option[array_search($value, $option)]);
+				update_option($data, $option);
+			}
+		}
+	}
 
 	/*
 		recursive sanitizer

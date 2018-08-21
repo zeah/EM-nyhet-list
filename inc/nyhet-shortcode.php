@@ -268,12 +268,28 @@ final class Nyhet_shortcode {
 		if ($post->post_type != 'nyhet') return $data;
 
 		$exclude = get_option('nyhet_exclude');
-
 		if (!is_array($exclude)) $exclude = [];
 
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$html['html'] = $this->get_html([$post]);
+		$exclude_serp = get_option('nyhet_exclude_serp');
+		if (!is_array($exclude_serp)) $exclude_serp = [];
+
+		if (in_array($post->ID, $exclude_serp)) return $data;
+
+		// $html['html'] = $this->get_html([$post]);
+
+		// link
+		$html['link'] = get_post_permalink($post->ID);
+
+		// thumbnail
+		$html['thumbnail'] = get_the_post_thumbnail($post, 'post-thumbnail');
+
+		// title
+		$html['title'] = $post->post_title;
+
+		// excerpt
+		$html['excerpt'] = get_the_excerpt($post);
 
 		array_push($data, $html);
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
