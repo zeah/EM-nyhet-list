@@ -51,10 +51,13 @@ final class Nyhet_shortcode {
 		$type = 'nyhet';
 		if ($atts['name']) $type = get_post_types(['public' => true]);
 
+		$ppp = -1;
+
+		if ($atts['nr']) $ppp = intval($atts['nr']);
 
 		$args = [
 			'post_type' 		=> $type,
-			'posts_per_page' 	=> -1
+			'posts_per_page' 	=> $ppp
 		];
 
 		if (!$atts['name']) {
@@ -135,7 +138,7 @@ final class Nyhet_shortcode {
 		if ($atts['width']) $width = intval($atts['width']) / 10;
 
 
-		$html = '<ul class="nyhet-ul" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem;') : '').'">';
+		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
 
 		// else $html .= $this->get_html($posts);
 

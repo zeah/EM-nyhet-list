@@ -48,12 +48,14 @@ final class Nyhet_edit {
 		$data['nyhet']['title'] = '<h1 id="nyhet">Nyheter (Plugin)</h1>';
 
 		$data['nyhet']['index'] = '<li><h2><a href="#nyhet">Nyheter (Plugin)</a></h2>
-											<ul>
+											<ul class="emtheme-documentation-alpha">
 												<li><a href="#nyhet-editor">Editor</a></li>
 												<li><a href="#nyhet-shortcode">Shortcode</a></li>
 												<li><a href="#nyhet-aldri">Aldri vis</a></li>
 												<li><a href="#nyhet-sort">Sorting order</a></li>
 												<li><a href="#nyhet-overview">Overview</a></li>
+												<li><a href="#nyhet-tags">Html classes</a></li>
+												<li><a href="#nyhet-examples">Shortcode Examples</a></li>
 											</ul>
 										</li>';
 		$data['nyhet']['info'] = '<li id="nyhet-editor"><h2>Editor</h2>
@@ -69,20 +71,49 @@ final class Nyhet_edit {
 									</li>
 									<li id="nyhet-shortcode"><h2>Shortcodes</h2>
 										<ul>
-											<li><b>[nyhet]</b></li>
+											<li><b>[nyhet]</b>
+											<p>Will show all nyheter.</p></li>
+
+											<li><b>[nyhet nr=x]</b>
+											<p>Will return x number of nyheter. Default is all.</p></li>
+
 											<li><b>[nyhet name="xx,yy"]</b>
 											<p>If name attribute is used, then post type can be post, page and nyhet.
 											<br>If a post/page/nyhet share slug-name with another, then both will be shown.</p></li>
-											<li><b>[nyhet nyhet=zz]</b></li>
+											
+											<li><b>[nyhet nyhet=zz]</b>
+											<p>Will show all nyheter from nyhet category.</p></li>
+
+											<li><b>[nyhet colnr=x]</b>
+											<p>Default value is 3, min is 1 and max is 6.</p></li>
+											
 											<li><b>[nyhet float=left/right]</b>
-											<p>When float used, then width can also be set
-											<br>ex.: [nyhet float=right width=300]</p></li>
-											<li><b>[nyhet notitle notext]</b></li>
+											<p>When float is set:
+												<ul>
+													<li>Width can be set and default value is 200px.</li>
+													<li>Colnr is defaulted at 1 and max is 2.</li>
+													<li>Floated elements have a 20px margin.
+												</ul>
+												Eks: [nyhet float=right width=500px]
+											</p>
+											</li>
+											
+											<li><b>[nyhet notitle notext]</b>
+											<p>If notitle is set, then no titles will be shown.
+											<br>Same goes for notext.</p></li>
+
+											<li><b>[nyhet random=x]</b>
+											<p>Will return a x random hits from your shortcode.
+											<br>If value given is greater than results, then all will be returned.
+											<br>Eks: [nyhet nyhet=frontpage random=5] will show 5 random nyheter from the category frontpage.</p></li>
+											
+										
 										</ul>
 									</li>
 
 									<li id="nyhet-aldri"><h2>Aldri vis</h2>
-										<p>If tagged, then the nyhet will never appear on the front-end.</p>
+										<p>If tagged, then the nyhet will never appear on the front-end.
+										<br>Second choice will make it not show up in internal search.</p>
 									</li>
 
 									<li id="nyhet-sort"><h2>Sorting order</h2>
@@ -96,6 +127,40 @@ final class Nyhet_edit {
 										<p> The <a target="_blank" href="'.get_site_url().'/wp-admin/edit.php?post_type=nyhet&page=nyhet-overview">overview page</a> will show every post and page and whether or not there are
 										<br>any lan shortcodes in them.
 										<br>You can sort the columns alphabetically</p>
+									</li>
+
+									<li id="nyhet-tags"><h2>Html classes</h2>
+										<ul>
+											<li>.nyhet-ul
+											<p>List element</p></li>
+
+											<li>.nyhet-ul-floated
+											<p>List element when floated.</p></li>
+
+											<li>.nyhet-container
+											<p>List item element (each post)</p></li>
+
+											<li>.nyhet-link
+											<p>Link surrounding logo, title and description.</p></li>
+
+											<li>.nyhet-logo
+											<p>The image tag.</p></li>
+
+											<li>.nyhet-text
+											<p>Container element for title and description.</p></li>
+
+											<li>.nyhet-title
+											<p>Element for title. (meta field or post title)</p></li>
+
+											<li>.nyhet-description
+											<p>Element for description. (meta field or excerpt)</p></li>
+										</ul>
+									</li>
+
+									<li id="nyhet-examples"><h2>Shortcode Examples</h2>
+										<ul>
+											<li></li>
+										</ul>
 									</li>
 										';
 
