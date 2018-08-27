@@ -229,7 +229,7 @@ final class Nyhet_edit {
 		/* lan info meta */
 		add_meta_box(
 			'nyhet_meta', // name
-			'Nyhet Info', // title 
+			'Nyhet Info (Shortcode)', // title 
 			array($this,'create_meta_box'), // callback
 			'nyhet' // page
 		);
