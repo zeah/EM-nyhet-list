@@ -30,6 +30,18 @@
 	/*flex-direction: column;*/
 }
 
+.nyhet-container-first {
+	grid-column: span 2;
+}
+
+.nyhet-container-first .nyhet-title {
+	font-size: 3rem;
+}
+
+.nyhet-container-first .nyhet-description {
+	font-sizer: 2rem;
+}
+
 
 /* list item background */
 .nyhet-container:nth-child(odd) {
@@ -43,6 +55,7 @@
 }
 
 .nyhet-link {
+	display: block;
 	color: #000;
 	text-decoration: none;
 }
@@ -90,7 +103,7 @@
 	}
 
 	.nyhet-container:first-child {
-		width: 60%;
+		width: 62.5%;
 	}
 
 	.default-template-right-widget .nyhet-container,

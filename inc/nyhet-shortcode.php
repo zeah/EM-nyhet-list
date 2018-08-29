@@ -137,8 +137,13 @@ final class Nyhet_shortcode {
 
 		if ($atts['width']) $width = intval($atts['width']) / 10;
 
+		$colone = false;
+		if ($floated && intval($atts['colnr']) === 1) $colone = true;
 
-		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
+		$coltwo = false;
+		if ($floated && intval($atts['colnr']) === 2) $coltwo = true;
+
+		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').($colone ? ' nyhet-ul-colone' : '').($coltwo ? ' nyhet-ul-coltwo' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
 
 		// else $html .= $this->get_html($posts);
 
@@ -220,7 +225,8 @@ final class Nyhet_shortcode {
 			$meta = $this->esc_kses($meta);
 
 			// grid container
-			$html .= '<li class="nyhet-container"'.($first ? ' style="grid-column: 1 / span 2;"' : '').'>';
+			$html .= '<li class="nyhet-container'.($first ? ' nyhet-container-first' : '').'">';
+			// $html .= '<li class="nyhet-container"'.($first ? ' style="grid-column: 1 / span 2;"' : '').'>';
 
 			$first = false;
 
