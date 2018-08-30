@@ -169,29 +169,33 @@ final class Nyhet_shortcode {
 
 
 		// RANDOM random or random=x
-		if (in_array('random', $atts) && $atts['random'] == '') $posts = [$posts[rand(0, sizeof($posts)-1)]];
-		elseif ($atts['random']) {
+		if ($atts['random']) $posts = $this->get_random($posts, intval($atts['random']));
+		elseif (in_array('random', $atts) && $atts['random'] == '') $posts = $this->get_random($posts);
 
-			$random = intval($atts['random']);
 
-			// max value of random: size of array of Posts
-			if ($random > sizeof($posts)) $random = sizeof($posts);
+		// if (in_array('random', $atts) && $atts['random'] == '') $posts = [$posts[rand(0, sizeof($posts)-1)]];
+		// elseif ($atts['random']) {
 
-			// min value of random: 1
-			if ($random < 1) $random = 1;
+		// 	$random = intval($atts['random']);
 
-			// getting randoms
-			$p = [];
-			for ($i = 0; $i < $random; $i++) {
-				$r = array_rand($posts);
+		// 	// max value of random: size of array of Posts
+		// 	if ($random > sizeof($posts)) $random = sizeof($posts);
 
-				array_push($p, $posts[$r]);
-				unset($posts[$r]);
-			}
+		// 	// min value of random: 1
+		// 	if ($random < 1) $random = 1;
 
-			// setting random posts
-			$posts = $p;
-		}
+		// 	// getting randoms
+		// 	$p = [];
+		// 	for ($i = 0; $i < $random; $i++) {
+		// 		$r = array_rand($posts);
+
+		// 		array_push($p, $posts[$r]);
+		// 		unset($posts[$r]);
+		// 	}
+
+		// 	// setting random posts
+		// 	$posts = $p;
+		// }
 
 
 
@@ -319,6 +323,30 @@ final class Nyhet_shortcode {
 		return $data;
 	}
 
+
+	private function get_random($posts, $nr = 1) {
+		global $post;
+
+		$id = $post->ID;
+
+		if (!is_array($posts)) return $posts;
+
+		if ($nr < 1) $nr = 1;
+		if ($nr > sizeof($posts)) $nr = sizeof($posts); 
+
+		$p = [];
+
+		for ($i = 0; $i < $nr; $i++) {
+
+			$r = array_rand($posts);
+
+			if ($posts[$r] && $posts[$r]->ID !== $id) array_push($p, $posts[$r]);
+			
+			unset($posts[$r]);
+		}
+
+		return $p;
+	}
 
 
 	/**
