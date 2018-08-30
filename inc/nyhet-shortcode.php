@@ -150,7 +150,9 @@ final class Nyhet_shortcode {
 				case 2: $floated_col = ' nyhet-ul-coltwo'; break;
 			}
 
-		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated'.$floated_col : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 0 2rem;') : '').'">';
+
+		if (wp_is_mobile()) $html = '<ul class="nyhet-ul">';
+		else $html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated'.$floated_col : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 0 2rem;') : '').'">';
 		// $html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').($colone ? ' nyhet-ul-colone' : '').($coltwo ? ' nyhet-ul-coltwo' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
 
 		// else $html .= $this->get_html($posts);
@@ -205,8 +207,8 @@ final class Nyhet_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('em-nyhet-style', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet.css', array(), '1.0.1', '(min-width: 801px)');
-        wp_enqueue_style('em-nyhet-mobile', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet-mobile.css', array(), '1.0.1', '(max-width: 800px)');
+        wp_enqueue_style('em-nyhet-style', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet.css', array(), '1.0.3', '(min-width: 801px)');
+        wp_enqueue_style('em-nyhet-mobile', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet-mobile.css', array(), '1.0.3', '(max-width: 800px)');
 	}
 
 
