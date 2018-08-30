@@ -26,6 +26,7 @@
 .nyhet-container {
 	list-style: none;
 
+	background-color: #fff;
 	/*display: flex;*/
 	/*flex-direction: column;*/
 }
@@ -39,19 +40,24 @@
 }
 
 .nyhet-container-first .nyhet-description {
-	font-sizer: 2rem;
+	font-size: 2rem;
 }
 
 
 /* list item background */
-.nyhet-container:nth-child(odd) {
-	background-color: hsl(120, 50%, 98%);
-}
+/*.nyhet-container:nth-child(odd) {*/
+	/*background-color: hsl(120, 50%, 98%);*/
+/*}*/
 
 
 .nyhet-container:first-child {
     /*grid-column: 1 / span 2;*/
 	/*background-color: red !important;*/
+}
+
+.nyhet-text,
+.nyhet-logo {
+	border: solid 1px #ccc;
 }
 
 .nyhet-link {
@@ -62,14 +68,18 @@
 
 .nyhet-logo {
 	width: 100%;
-	height: auto;
+
+	height: 25rem;
+	object-fit: cover;
 
 	display: block;
+	border-bottom: none;
 }
 
 .nyhet-text {
 	display: block;
 	padding: 1rem;
+	border-top: none;
 }
 
 .nyhet-title {
@@ -77,15 +87,69 @@
 	display: block;
 }
 
-.nyhet-description {
+.nyhet-container:nth-child(7) {
+	grid-column: span 2;
+}
 
+.nyhet-container:nth-child(7) > .nyhet-link > .nyhet-text > .nyhet-title {
+	font-size: 2.6rem;
+}
+
+.nyhet-container:nth-child(11) {
+	grid-column: span 3
+}
+
+.nyhet-container:nth-child(11) > .nyhet-link > .nyhet-text > .nyhet-title {
+	font-size: 3rem;
+}
+
+
+.nyhet-ul-floated > .nyhet-container > .nyhet-link > .nyhet-logo {
+	height: 15rem;
+}
+
+.nyhet-ul-colone .nyhet-container:nth-child(1),
+.nyhet-ul-colone .nyhet-container:nth-child(7),
+.nyhet-ul-colone .nyhet-container:nth-child(11) {
+	grid-column: span 1;	
+}
+
+.nyhet-ul-coltwo .nyhet-container:nth-child(1),
+.nyhet-ul-coltwo .nyhet-container:nth-child(6),
+.nyhet-ul-coltwo .nyhet-container:nth-child(10) {
+	grid-column: span 2;	
+}
+
+.nyhet-ul-coltwo .nyhet-container:nth-child(11) {
+	grid-column: span 1;
+}
+
+.nyhet-ul-floated > .nyhet-container > .nyhet-link > .nyhet-text > .nyhet-title {
+	font-size: 1.8rem;
+}
+.nyhet-ul-floated > .nyhet-container > .nyhet-link > .nyhet-text > .nyhet-description {
+	font-size: 1.6rem;
 }
 
 /* 3.0 other browsers */
 
 /* 3.1 old safari and edge */
 @supports not (display: grid) {
+	.nyhet-ul {
+		display: flex;
+		flex-wrap: wrap;
+	}
 
+	.nyhet-container {
+		width: 32%;
+		margin: 0.5rem;
+	}
+
+	.nyhet-container:first-child,
+	.nyhet-container:nth-child(7),
+	.nyhet-container:nth-child(11) {
+		width: 65%;
+	}
 } 
 
 /* 3.2 internet explorer */

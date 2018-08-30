@@ -137,13 +137,21 @@ final class Nyhet_shortcode {
 
 		if ($atts['width']) $width = intval($atts['width']) / 10;
 
-		$colone = false;
-		if ($floated && intval($atts['colnr']) === 1) $colone = true;
+		// $colone = false;
+		// if ($floated && intval($atts['colnr']) === 1) $colone = true;
 
-		$coltwo = false;
-		if ($floated && intval($atts['colnr']) === 2) $coltwo = true;
+		// $coltwo = false;
+		// if ($floated && intval($atts['colnr']) === 2) $coltwo = true;
 
-		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').($colone ? ' nyhet-ul-colone' : '').($coltwo ? ' nyhet-ul-coltwo' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
+		$floated_col = false;
+		if ($floated)
+			switch (intval($atts['colnr'])) {
+				case 1: $floated_col = ' nyhet-ul-colone'; break;
+				case 2: $floated_col = ' nyhet-ul-coltwo'; break;
+			}
+
+		$html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated'.$floated_col : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 0 2rem;') : '').'">';
+		// $html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').($colone ? ' nyhet-ul-colone' : '').($coltwo ? ' nyhet-ul-coltwo' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
 
 		// else $html .= $this->get_html($posts);
 
@@ -232,7 +240,10 @@ final class Nyhet_shortcode {
 
 			$html .= '<a class="nyhet-link" href="'.get_permalink($p).'">';
 
-			$html .= '<img class="nyhet-logo" src="'.esc_url(get_the_post_thumbnail_url($p)).'">';
+
+			$thumbnail = get_the_post_thumbnail_url($p);
+
+			if ($thumbnail) $html .= '<img class="nyhet-logo" src="'.esc_url($thumbnail).'">';
 
 
 			$show = false;
