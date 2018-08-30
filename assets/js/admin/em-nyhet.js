@@ -1,6 +1,6 @@
 (() => {
 
-	// console.log(nyhet_meta);
+	console.log(nyhet_meta);
 
 	let newtype = '';
 
@@ -54,6 +54,7 @@
 		if (o.min) input.setAttribute('min', parseFloat(o.step));
 
 
+		console.log(o.name);
 
 		if (!o.notData) input.setAttribute('name', 'nyhet_data['+o.name+']');
 		else input.setAttribute('name', o.name);
@@ -104,15 +105,19 @@
 
 	container.appendChild(container_sort);
 
-	for (let sort of nyhet_meta['tax'])
+	for (let sort of nyhet_meta['tax']) {
+		// console.log(sort);
+		// console.log(unescape(decodeURIComponent(sort)));
 		container_sort.appendChild(newinput({
 			name: 'nyhet_sort_'+sort, 
 			title: 'Sortering '+sort.replace(/-/g, ' '), 
 			notData: true, 
+			// sort: decodeURIComponent(escape(sort)), 
 			sort: sort, 
 			type: 'number',
 			step: 0.01
 		}));
+	}
 
 	// container.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
 
@@ -162,6 +167,10 @@
 	// creating category
 	jQuery('#nyhettype-add-submit').click(function(e) {
 		let text = newtype.trim().replace(/ /g, '-');
+		text = text.replace('ø', 'o');
+		text = text.replace('æ', 'ae');
+		text = text.replace('å', 'a');
+
 		let input = newinput({name: 'nyhet_sort_'+text, title: 'Sortering '+text.replace(/-/g, ' '), notData: true, sort: text, type: 'number'});
 		$('.nyhet-sort-container').append(input);
 		// $("input[name='nyhet_sort']").parent().parent().append(input);

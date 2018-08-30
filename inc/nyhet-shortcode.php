@@ -155,6 +155,7 @@ final class Nyhet_shortcode {
 		else $html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated'.$floated_col : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 0 2rem;') : '').'">';
 		// $html = '<ul class="nyhet-ul'.($floated ? ' nyhet-ul-floated' : '').($colone ? ' nyhet-ul-colone' : '').($coltwo ? ' nyhet-ul-coltwo' : '').'" style="grid-template-columns:'.$columns.'; -ms-grid-columns: '.$columns.';'.($floated ? (' float:'.$floated.'; width: '.($width ? $width : '20').'rem; margin: 2rem;') : '').'">';
 
+		// $html .= sizeof($posts);
 		// else $html .= $this->get_html($posts);
 
 		$first = true;

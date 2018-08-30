@@ -24,6 +24,8 @@ final class Nyhet_edit {
 		add_action('manage_nyhet_posts_columns', array($this, 'column_head'));
 		add_filter('manage_nyhet_posts_custom_column', array($this, 'custom_column'));
 		add_filter('manage_edit-nyhet_sortable_columns', array($this, 'sort_column'));
+		add_action('pre_get_posts', array($this, 'sort_column_by'));
+
 		
 		/* metabox, javascript */
 		add_action('add_meta_boxes_nyhet', array($this, 'create_meta'));
@@ -219,6 +221,20 @@ final class Nyhet_edit {
 	}
 
 
+	public function sort_column_by($query) {
+		
+		if (!is_admin()) return;
+		if (!$query->is_main_query()) return;
+		if ($query->get('post_type') != 'nyhet') return;
+
+		$sort = 'nyhet_sort';
+		if ($query->get('nyhettype')) $sort .= '_'.$query->get('nyhettype');
+
+		$query->set('order_by', 'meta_value');
+		$query->set('meta_key', $sort);
+	    $query->set('meta_type', 'numeric');
+
+	}
 
 	/*
 		creates wordpress metabox
@@ -274,9 +290,14 @@ final class Nyhet_edit {
 		];
 
 		$ameta = get_post_meta($post->ID);
-		foreach($ameta as $key => $value)
-			if (strpos($key, 'nyhet_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
+		foreach($ameta as $key => $value) {
+			$norsk = ['æ', 'ø', 'å'];
+			$english = ['ae', 'o', 'a'];
 
+			$key = str_replace($norsk, $english, $key);
+
+			if (strpos($key, 'nyhet_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
+		}
 
 		wp_localize_script('em-nyhet-admin', 'nyhet_meta', json_decode(json_encode($json), true));
 		echo '<div class="nyhet-meta-container"></div>';
