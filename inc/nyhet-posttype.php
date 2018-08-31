@@ -29,8 +29,8 @@ final class Nyhet_posttype {
 		create custom post type: emkort 
 	*/
 	public function create_cpt() {
-		$plur = 'Nyhet';
-		$sing = 'Nyheter';
+		$plur = 'Nyheter';
+		$sing = 'Nyhet';
 	
 		$labels = array(
 			'name'               => __( $plur, 'text-domain' ),
