@@ -45,6 +45,7 @@ final class Nyhet_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+		global $post;
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
 		if (!is_array($atts)) $atts = [];
@@ -82,11 +83,18 @@ final class Nyhet_shortcode {
 					)
 				);
 
-
+		// news to ignore
 		$names = false;
 		if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
 		if ($names) $args['post_name__in'] = $names;
 		
+		if ($post->post_type == 'nyhet') {
+			if (is_array($args['post_name__in'])) array_push($args['post_name__in'], $post->ID);
+			else $args['post_name__in'] = [$post->ID];
+		}
+		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
+		
+
 		$exclude = get_option('nyhet_exclude');
 
 		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
@@ -327,9 +335,9 @@ final class Nyhet_shortcode {
 
 
 	private function get_random($posts, $nr = 1) {
-		global $post;
+		// global $post;
 
-		$id = $post->ID;
+		// $id = $post->ID;
 
 		if (!is_array($posts)) return $posts;
 
@@ -342,7 +350,8 @@ final class Nyhet_shortcode {
 
 			$r = array_rand($posts);
 
-			if ($posts[$r] && $posts[$r]->ID !== $id) array_push($p, $posts[$r]);
+			if ($posts[$r]) array_push($p, $posts[$r]);
+			// if ($posts[$r] && $posts[$r]->ID !== $id) array_push($p, $posts[$r]);
 			
 			unset($posts[$r]);
 		}
