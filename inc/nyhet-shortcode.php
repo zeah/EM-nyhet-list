@@ -88,16 +88,18 @@ final class Nyhet_shortcode {
 		if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
 		if ($names) $args['post_name__in'] = $names;
 		
+
+		// stuff to exclude
+		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
 		if ($post->post_type == 'nyhet') {
-			if (is_array($args['post_name__in'])) array_push($args['post_name__in'], $post->ID);
-			else $args['post_name__in'] = [$post->ID];
+			if (is_array($args['post__not_in'])) array_push($args['post__not_in'], $post->ID);
+			else $args['post__not_in'] = [$post->ID];
 		}
 		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
 		
 
 		$exclude = get_option('nyhet_exclude');
 
-		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
 
 		$posts = get_posts($args);
 
@@ -207,7 +209,7 @@ final class Nyhet_shortcode {
 		// 	$posts = $p;
 		// }
 
-
+		wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 
 		$html .= $this->get_html($posts, $first, $title, $text);
 
