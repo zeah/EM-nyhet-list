@@ -37,12 +37,13 @@
 
 	margin-bottom: 2rem;
 
+	background-color: #fff;
 }
 
 
-.nyhet-container:nth-child(odd) {
+/*.nyhet-container:nth-child(odd) {
 	background-color: #eee;
-}
+}*/
 
 @media only screen and (min-width: 600px) {
 	.nyhet-container {

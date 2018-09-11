@@ -222,8 +222,8 @@ final class Nyhet_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('em-nyhet-style', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet.css', array(), '1.0.3', '(min-width: 801px)');
-        wp_enqueue_style('em-nyhet-mobile', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet-mobile.css', array(), '1.0.3', '(max-width: 800px)');
+        wp_enqueue_style('em-nyhet-style', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet.css', array(), '1.0.5', '(min-width: 815px)');
+        wp_enqueue_style('em-nyhet-mobile', NYHET_PLUGIN_URL.'assets/css/pub/em-nyhet-mobile.css', array(), '1.0.5', '(max-width: 816px)');
 	}
 
 
