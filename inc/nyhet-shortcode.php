@@ -209,7 +209,6 @@ final class Nyhet_shortcode {
 		// 	$posts = $p;
 		// }
 
-		wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 
 		$html .= $this->get_html($posts, $first, $title, $text);
 
